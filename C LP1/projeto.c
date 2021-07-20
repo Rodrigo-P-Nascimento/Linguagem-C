@@ -3,14 +3,17 @@
 #include <locale.h>
 
 #define TAM_NOME 100
+#define TAM_IMOVEIS 100
+
+void MenuDeOpcoes();
 
 typedef struct {
-    char logradouro[TAM_NOME]; // Nome da rua do imovél
-    int numeroImovel;// Número do imovél
+    char logradouro[TAM_NOME]; // Nome da rua do imovel
+    int numeroImovel;// Número do imovel
     char bairro[TAM_NOME]; //Nome do Bairro
     unsigned int cep; //CEP
     char cidade[TAM_NOME]; //Nome da cidade
-    double valor; //Valor em R$ do imovél
+    double valor; //Valor em R$ do imovel
     char disponibilidade[10]; //STRING, que conterá VENDA ou ALUGUEL
 }Endereco;
 
@@ -41,8 +44,29 @@ typedef struct{
 
 int main(void){
 
-    setlocale(LC_ALL, "portuguese");
-    printf("Meu coração por ti bate mamãe!\n");
+    int opcao=1;
+    Casa CSImovies[TAM_IMOVEIS];
+    Apartamento ATImoveis[TAM_IMOVEIS];
+    Terreno TRImoveis[TAM_IMOVEIS];
+
+    //setlocale(LC_ALL, "portuguese");
+    //printf("Meu coração por ti bate mamãe!\n");
+
+    while(opcao){
+        MenuDeOpcoes();
+        scanf("%d", &opcao);
+    }
+
+
 
 	return 0;
+}
+
+void MenuDeOpcoes(){
+    puts("\nSISTEMA DE GERENCIAMENTO DE IMÓVEIS");
+    puts("LISTA DE OPÇÕES DISPONIVÉIS\n");
+
+
+    printf("Digite uma das opções: ");
+
 }
