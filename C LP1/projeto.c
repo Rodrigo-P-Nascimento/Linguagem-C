@@ -3,8 +3,18 @@
 #include <locale.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include <Windows.h>
+#define LIMPAR "cls"
+#elif _linux_
+#include <unistd.h>
+#define LIMPAR "clear"
+// Dá mensagem de erro informando que o sistema não é suportado.
+#error "Sistema nao suportado."
+#endif
+
 #define TAM_NOME 100
-#define TAM_IMOVEIS 100
+#define TAM_IMOVEIS 10
 
 typedef struct {
     char logradouro[TAM_NOME]; // Nome da rua do imovel
@@ -46,9 +56,13 @@ typedef struct{
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3); // Essa função ira preencher todos os imoveis com valores nulos
 
+int ConsultaImoveisLivres(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int *cas, int *apt, int *ter);
+
+void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//imovel pode ser 1, 2 o u 3
+
 void MenuDeOpcoes();
 
-void CadastraImovel();
+void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
 
 
 int main(void){
@@ -70,10 +84,11 @@ int main(void){
         switch (opcao){
         case -1:
             puts("SAINDO....");
-            //coloca um sleep aqui
+            Sleep(1000);
             break;
         case 1:
-            CadastraImovel();
+            CadastraImovel(CSImovies, ATImoveis, TRImoveis);
+            break;
 
         default:
             puts("VALOR INVÁLIDO!");
@@ -138,6 +153,61 @@ void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     }
 }
 
+int ConsultaImoveisLivres(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int *cas, int *apt, int *ter){
+
+    int i = 0;
+    int imoveisDisponiveis = 0, casas = 0, apart = 0, terre = 0;
+
+    for(i =0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
+            imoveisDisponiveis++;
+            casas++;
+        }
+        if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
+            imoveisDisponiveis++;
+            apart++;
+        }
+        if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
+            imoveisDisponiveis++;
+            terre++;
+        }
+    }
+    *cas = casas;
+    *apt = apart;
+    *ter = terre;
+
+    return imoveisDisponiveis;
+}
+
+void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+    int i = 0;
+
+    if(tipo == 1){//CASA
+        printf("Temos disponível as seguintes casas:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
+                printf("\t Casa numero: [%d]\n", i+1);
+            }
+        }
+    }else if(tipo == 2){//APARTAMENTO
+        printf("Temos disponível os seguintes Apartamentos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
+                printf("\t Apartamento numero: [%d]\n", i+1);
+            }
+        }
+    }else if(tipo == 3){//TERRENO
+        printf("Temos disponível os seguintes Terrenos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
+                printf("\t Terreno numero: [%d]\n", i+1);
+            }
+        }
+    }
+}
+
+
 void MenuDeOpcoes(){
     puts("\nSISTEMA DE GERENCIAMENTO DE IMÓVEIS");
     puts("----------------------------------------\n");
@@ -148,10 +218,13 @@ void MenuDeOpcoes(){
 
 }
 
-void CadastraImovel(){
+void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
     int flag1 = 1;
-    int op1 = 1;
+    int op1;
+
+    int CasaEscolhida, NumApt, NumTer;
+
 
     while (flag1){
     
@@ -159,14 +232,34 @@ void CadastraImovel(){
         printf("Qual o tipo do seu imóvel? ");
         scanf("%d", &op1);
 
-        if(op1 != 1 || op1 != 2 || op1 != 3){
-            puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
-        }else{
+
+        if(op1 == 1 || op1 == 2 || op1 == 3){
             flag1 = 0;
+            break;
+        }else{
+            puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
+            Sleep(1000);
+            system(LIMPAR);
         } 
     }
     if(op1 == 1){
+            system(LIMPAR);
             puts("\nVocê escolheu cadastrar uma casa!");
+            ExibeImoviesDisp(1, imovel1,  imovel2, imovel3);
+            flag1 = 1;
+            do{
+                puts("Escolha uma casa para cadastar: ");
+                scanf("%d", &CasaEscolhida);
+
+                if(strcmp(imovel1[CasaEscolhida-1].tituloAnuncio, "VAZIO") == 0){
+                    printf("Boa escolha, a Casa [%d] será perfeita para você.\n", CasaEscolhida);
+                    flag1 = 0;
+                    break;
+                    
+                }else{
+                    puts("Esta casa já esta ocupada, escolha outra.\n");
+                }
+            }while(flag1);
             
-        } 
+    } 
 }
