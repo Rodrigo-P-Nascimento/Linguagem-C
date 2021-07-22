@@ -24,10 +24,10 @@ typedef struct {
     int numeroImovel;// Número do imovel
     unsigned int cep; //CEP
     double valor; //Valor em R$ do imovel
-    
+
 }Endereco;
 
-typedef struct{   
+typedef struct{
     Endereco imovel;
     char tituloAnuncio[TAM_NOME];//Nome do anúncio da casa
     int numPavimentos; //Quantos andares tem a casa
@@ -70,7 +70,7 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
 
 int main(void){
 
-    
+
     int opcao=1;
 
     Casa CSImovies[TAM_IMOVEIS];
@@ -97,9 +97,9 @@ int main(void){
             puts("VALOR INVÁLIDO!");
             break;
         }
-        
+
     }while(opcao != -1);
-    
+
 
     puts("\nOBRIGADO POR USAR O NOSSO PROGRAMA!");
 
@@ -156,7 +156,7 @@ void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
         imovel2[i].numQuartos = 0;
         imovel2[i].numVagasGaragem = 0;
         imovel2[i].valorDoCondominio = 0;
-        
+
     }
     for( i=0; i < TAM_IMOVEIS; i++){
         strcpy(imovel3[i].imovel.logradouro, "VAZIO");
@@ -228,6 +228,7 @@ void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *im
 
 
 void MenuDeOpcoes(){
+    system(LIMPAR);
     puts("\nSISTEMA DE GERENCIAMENTO DE IMÓVEIS");
     puts("----------------------------------------\n");
     puts("[1]\tCadastrar um novo imóvel.");
@@ -240,15 +241,16 @@ void MenuDeOpcoes(){
 void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
     int flag1 = 1;
+    int flag3 = 0;
     int op1;
 
     int CasaEscolhida, NumApt, NumTer;
 
 
     while (flag1){
-    
-        puts("[1]-> Casa \t [2]-> Apartamento \t [3]-> Terreno");
-        printf("Qual o tipo do seu imóvel? ");
+
+        puts("\t[1]-> Casa \n\t [2]-> Apartamento \n\t [3]-> Terreno");
+        printf("\n Qual o tipo do seu imóvel? ");
         scanf("%d", &op1);
 
 
@@ -259,7 +261,7 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
             mysleep(1000);
             system(LIMPAR);
-        } 
+        }
     }
     if(op1 == 1){
             system(LIMPAR);
@@ -268,43 +270,65 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             flag1 = 1;
             do{
                 puts("Escolha uma casa para cadastar: ");
-                scanf("%d", &CasaEscolhida);    
+                scanf("%d", &CasaEscolhida);
                 int ReCS = (CasaEscolhida - 1);
 
                 if(strcmp(imovel1[ReCS].tituloAnuncio, "VAZIO") == 0){
                     printf("Boa escolha, a Casa [%d] será perfeita para você.\n", CasaEscolhida);
                     printf("----------------------------------------------------------------------\n");
-                    printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.");
+                    printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
                     printf("|>| Título do anúncio da casa[MAX %d caracteres]: ", TAM_NOME-1);
                     limparBuffer();
-                    fgets(&imovel1[ReCS], TAM_NOME, stdin);
+                    fgets(imovel1[ReCS].tituloAnuncio, TAM_NOME, stdin);
 
                     printf("|>| Número de pavimentos: ");
-                    scanf("%d", imovel1[ReCS].numPavimentos);
+                    scanf("%d", &imovel1[ReCS].numPavimentos);
 
                     printf("|>| Número de quartos: ");
-                    scanf("%d", imovel1[ReCS].numQuartos);
+                    scanf("%d", &imovel1[ReCS].numQuartos);
 
                     printf("|>| Área do Terreno: ");
-                    scanf("%lf", imovel1[ReCS].areaTerreno);
+                    scanf("%lf", &imovel1[ReCS].areaTerreno);
 
                     printf("|>| Área construída: ");
-                    scanf("%lf", imovel1[ReCS].areaConstruida);
+                    scanf("%lf", &imovel1[ReCS].areaConstruida);
                     printf("----------------------------------------------------------------------\n");
-                    printf("\n\tEndereço da casa ");
+                    printf("\nENDEREÇO DA CASA\n");
 
-                    printf("Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
+                    printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
                     limparBuffer();
-                    fgets(&imovel1[ReCS].imovel.logradouro, TAM_NOME, stdin);
+                    fgets(imovel1[ReCS].imovel.logradouro, TAM_NOME, stdin);
 
-                    printf("Número da casa: ");
-                    scanf("%d", imovel1[ReCS].imovel.numeroImovel);
+                    printf("|>| Número da casa: ");
+                    scanf("%d", &imovel1[ReCS].imovel.numeroImovel);
 
-                    printf("Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
+                    printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
                     limparBuffer();
-                    fgets(&imovel1[ReCS].imovel.bairro, TAM_NOME, stdin);
+                    fgets(imovel1[ReCS].imovel.bairro, TAM_NOME, stdin);
 
-                    printf("CEP[Apenas o número]: ")
+                    printf("|>| CEP[Apenas o número]: ");
+                    scanf("%d", &imovel1[ReCS].imovel.cep);
+
+                    printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
+                    limparBuffer();
+                    fgets(imovel1[ReCS].imovel.cidade, TAM_IMOVEIS, stdin);
+
+                    printf("|>| Valor da casa: R$");
+                    scanf("%lf", &imovel1[ReCS].imovel.valor);
+
+                    do{
+                        printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
+                        scanf("%d", &flag3);
+                        if(flag3 == 1){
+                            strcpy(imovel1[ReCS].imovel.disponibilidade, "VENDA");
+                            break;
+                        }else if (flag3 == 2){
+                            strcpy(imovel1[ReCS].imovel.disponibilidade, "ALUGUEL");
+                            break;
+                        }else{
+                            printf("VALOR INVÁLIDO\n");
+                        }
+                    }while(flag3 != 1 || flag3 != 2 );
 
                     flag1 = 0;
                     break;
@@ -312,6 +336,9 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
                     puts("Esta casa já esta ocupada, escolha outra.\n");
                 }
             }while(flag1);
-            
-    } 
+
+            puts("\nCASA CADASTRADA COM SUCESSO!\n");
+            mysleep(2500);
+
+    }
 }
