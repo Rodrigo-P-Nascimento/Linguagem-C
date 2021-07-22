@@ -4,16 +4,16 @@
 #include <string.h>
 
 #ifdef _WIN32
-#include <Windows.h>
-#define LIMPAR "cls"
-#elif _linux_
-#include <unistd.h>
-#define LIMPAR "clear"
+    #include <Windows.h>
+    #define LIMPAR "cls"
+#elif __linux__
+    #include <unistd.h>
+    #define LIMPAR "clear"
 // Dá mensagem de erro informando que o sistema não é suportado.
 #error "Sistema nao suportado."
 #endif
 
-#define TAM_NOME 100
+#define TAM_NOME 101
 #define TAM_IMOVEIS 10
 
 typedef struct {
@@ -53,6 +53,9 @@ typedef struct{
     double area; //Quantos metros quadrados tem o apartamento
 }Terreno;
 
+void mysleep(int tempoMS);//função que é analoga ao Sleep() e unsleep()
+
+void limparBuffer(void);//função personalizada para limpar o buffer de entrada
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3); // Essa função ira preencher todos os imoveis com valores nulos
 
@@ -84,7 +87,7 @@ int main(void){
         switch (opcao){
         case -1:
             puts("SAINDO....");
-            Sleep(1000);
+            mysleep(1000);
             break;
         case 1:
             CadastraImovel(CSImovies, ATImoveis, TRImoveis);
@@ -101,6 +104,22 @@ int main(void){
     puts("\nOBRIGADO POR USAR O NOSSO PROGRAMA!");
 
 	return 0;
+}
+
+void mysleep(int tempoMS){
+#ifdef __linux__
+    usleep(tempoMS * 1000);
+#elif _WIN32
+    Sleep(tempoMS);
+#else
+
+#endif
+}
+
+void limparBuffer(void){
+    char c;
+
+    while((c = getchar()) != '\n' && c != EOF);
 }
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -238,7 +257,7 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             break;
         }else{
             puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
-            Sleep(1000);
+            mysleep(1000);
             system(LIMPAR);
         } 
     }
@@ -249,13 +268,46 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             flag1 = 1;
             do{
                 puts("Escolha uma casa para cadastar: ");
-                scanf("%d", &CasaEscolhida);
+                scanf("%d", &CasaEscolhida);    
+                int ReCS = (CasaEscolhida - 1);
 
-                if(strcmp(imovel1[CasaEscolhida-1].tituloAnuncio, "VAZIO") == 0){
+                if(strcmp(imovel1[ReCS].tituloAnuncio, "VAZIO") == 0){
                     printf("Boa escolha, a Casa [%d] será perfeita para você.\n", CasaEscolhida);
+                    printf("----------------------------------------------------------------------\n");
+                    printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.");
+                    printf("|>| Título do anúncio da casa[MAX %d caracteres]: ", TAM_NOME-1);
+                    limparBuffer();
+                    fgets(&imovel1[ReCS], TAM_NOME, stdin);
+
+                    printf("|>| Número de pavimentos: ");
+                    scanf("%d", imovel1[ReCS].numPavimentos);
+
+                    printf("|>| Número de quartos: ");
+                    scanf("%d", imovel1[ReCS].numQuartos);
+
+                    printf("|>| Área do Terreno: ");
+                    scanf("%lf", imovel1[ReCS].areaTerreno);
+
+                    printf("|>| Área construída: ");
+                    scanf("%lf", imovel1[ReCS].areaConstruida);
+                    printf("----------------------------------------------------------------------\n");
+                    printf("\n\tEndereço da casa ");
+
+                    printf("Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
+                    limparBuffer();
+                    fgets(&imovel1[ReCS].imovel.logradouro, TAM_NOME, stdin);
+
+                    printf("Número da casa: ");
+                    scanf("%d", imovel1[ReCS].imovel.numeroImovel);
+
+                    printf("Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
+                    limparBuffer();
+                    fgets(&imovel1[ReCS].imovel.bairro, TAM_NOME, stdin);
+
+                    printf("CEP[Apenas o número]: ")
+
                     flag1 = 0;
                     break;
-                    
                 }else{
                     puts("Esta casa já esta ocupada, escolha outra.\n");
                 }
