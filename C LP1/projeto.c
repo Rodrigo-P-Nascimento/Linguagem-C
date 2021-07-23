@@ -14,7 +14,7 @@
 #endif
 
 #define TAM_NOME 101
-#define TAM_IMOVEIS 10
+#define TAM_IMOVEIS 100
 
 typedef struct {
     char logradouro[TAM_NOME]; // Nome da rua do imovel
@@ -72,6 +72,7 @@ int main(void){
 
 
     int opcao=1;
+    int contadorCS=0, contadorAp=0, contadorTR=0;
 
     Casa CSImovies[TAM_IMOVEIS];
     Apartamento ATImoveis[TAM_IMOVEIS];
@@ -90,7 +91,7 @@ int main(void){
             mysleep(1000);
             break;
         case 1:
-            CadastraImovel(CSImovies, ATImoveis, TRImoveis);
+            CadastraImovel(CSImovies, ATImoveis, TRImoveis);    
             break;
         case 2:
             ConsultaImoveis(CSImovies, ATImoveis, TRImoveis);
@@ -206,9 +207,11 @@ void ConsultaImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             mysleep(200);
         }
     }
-    limparBuffer();
-    printf("\nPressione ENTER para voltar ao menu.");
-    getchar();
+    //limparBuffer();
+    //printf("\nPressione ENTER para voltar ao menu.");
+    //getchar();
+
+    system("pause");
 }
 
 void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -255,11 +258,10 @@ void MenuDeOpcoes(){
 void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
     int flag1 = 1;
-    int flag3 = 0;
+    int i=0;
     int op1;
 
-    int ImovelEscolhido, ReIMV;
-
+    int ReIMV=0;
 
     while (flag1){
 
@@ -280,229 +282,206 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     if(op1 == 1){
             system(LIMPAR);
             puts("\nVocê escolheu cadastrar uma casa!");
-            ExibeImoviesDisp(1, imovel1,  imovel2, imovel3);
-            flag1 = 1;
+       
+            for(i=0; i < TAM_IMOVEIS; i++){
+                if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
+                    ReIMV = i;
+                    break;
+                }
+            }
+            
+            printf("----------------------------------------------------------------------\n");
+            printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
+            printf("|>| Título do anúncio da casa[MAX %d caracteres]: ", TAM_NOME-1);
+            limparBuffer();
+            fgets(imovel1[ReIMV].tituloAnuncio, TAM_NOME, stdin);
+
+            printf("|>| Número de pavimentos: ");
+            scanf("%d", &imovel1[ReIMV].numPavimentos);
+
+            printf("|>| Número de quartos: ");
+            scanf("%d", &imovel1[ReIMV].numQuartos);
+
+            printf("|>| Área do Terreno: ");
+            scanf("%lf", &imovel1[ReIMV].areaTerreno);
+
+            printf("|>| Área construída: ");
+            scanf("%lf", &imovel1[ReIMV].areaConstruida);
+            printf("----------------------------------------------------------------------\n");
+            printf("\nENDEREÇO DA CASA\n");
+
+            printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
+            limparBuffer();
+            fgets(imovel1[ReIMV].imovel.logradouro, TAM_NOME, stdin);
+
+            printf("|>| Número da casa: ");
+            scanf("%d", &imovel1[ReIMV].imovel.numeroImovel);
+
+            printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
+            limparBuffer();
+            fgets(imovel1[ReIMV].imovel.bairro, TAM_NOME, stdin);
+
+            printf("|>| CEP[Apenas o número]: ");
+            scanf("%d", &imovel1[ReIMV].imovel.cep);
+
+            printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
+            limparBuffer();
+            fgets(imovel1[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
+
+            printf("|>| Valor da casa: R$");
+            scanf("%lf", &imovel1[ReIMV].imovel.valor);
+
             do{
-                puts("Escolha uma casa para cadastar: ");
-                scanf("%d", &ImovelEscolhido);
-                ReIMV = (ImovelEscolhido - 1);
-
-                if(strcmp(imovel1[ReIMV].tituloAnuncio, "VAZIO") == 0){
-                    printf("Boa escolha, a Casa [%d] será perfeita para você.\n", ImovelEscolhido);
-                    printf("----------------------------------------------------------------------\n");
-                    printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
-                    printf("|>| Título do anúncio da casa[MAX %d caracteres]: ", TAM_NOME-1);
-                    limparBuffer();
-                    fgets(imovel1[ReIMV].tituloAnuncio, TAM_NOME, stdin);
-
-                    printf("|>| Número de pavimentos: ");
-                    scanf("%d", &imovel1[ReIMV].numPavimentos);
-
-                    printf("|>| Número de quartos: ");
-                    scanf("%d", &imovel1[ReIMV].numQuartos);
-
-                    printf("|>| Área do Terreno: ");
-                    scanf("%lf", &imovel1[ReIMV].areaTerreno);
-
-                    printf("|>| Área construída: ");
-                    scanf("%lf", &imovel1[ReIMV].areaConstruida);
-                    printf("----------------------------------------------------------------------\n");
-                    printf("\nENDEREÇO DA CASA\n");
-
-                    printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
-                    limparBuffer();
-                    fgets(imovel1[ReIMV].imovel.logradouro, TAM_NOME, stdin);
-
-                    printf("|>| Número da casa: ");
-                    scanf("%d", &imovel1[ReIMV].imovel.numeroImovel);
-
-                    printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
-                    limparBuffer();
-                    fgets(imovel1[ReIMV].imovel.bairro, TAM_NOME, stdin);
-
-                    printf("|>| CEP[Apenas o número]: ");
-                    scanf("%d", &imovel1[ReIMV].imovel.cep);
-
-                    printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
-                    limparBuffer();
-                    fgets(imovel1[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
-
-                    printf("|>| Valor da casa: R$");
-                    scanf("%lf", &imovel1[ReIMV].imovel.valor);
-
-                    do{
-                        printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
-                        scanf("%d", &flag3);
-                        if(flag3 == 1){
-                            strcpy(imovel1[ReIMV].imovel.disponibilidade, "VENDA");
-                            break;
-                        }else if (flag3 == 2){
-                            strcpy(imovel1[ReIMV].imovel.disponibilidade, "ALUGUEL");
-                            break;
-                        }else{
-                            printf("VALOR INVÁLIDO\n");
-                        }
-                    }while(flag3 != 1 || flag3 != 2 );
-
-                    flag1 = 0;
+                printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
+                scanf("%d", &flag1);
+                if(flag1 == 1){
+                    strcpy(imovel1[ReIMV].imovel.disponibilidade, "VENDA");
+                    break;
+                }else if (flag1 == 2){
+                    strcpy(imovel1[ReIMV].imovel.disponibilidade, "ALUGUEL");
                     break;
                 }else{
-                    puts("Esta casa já esta ocupada, escolha outra.\n");
+                    printf("VALOR INVÁLIDO\n");
                 }
-            }while(flag1);
+            }while(flag1 != 1 || flag1 != 2 );
 
-            puts("\nCASA CADASTRADA COM SUCESSO!\n");
+            printf("\nCASA [%d] CADASTRADA COM SUCESSO!\n", ReIMV+1);
             mysleep(2500);
 
     }else if(op1 == 2){
+
         system(LIMPAR);
         puts("\nVocê escolheu cadastrar uma Apartamento!");
-        ExibeImoviesDisp(2, imovel1,  imovel2, imovel3);
-        flag1 = 1;
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+                if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
+                    ReIMV = i;
+                    break;
+                }
+        }
+
+        printf("----------------------------------------------------------------------\n");
+        printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
+        printf("|>| Título do anúncio do apartamento[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(imovel2[ReIMV].tituloAnuncio, TAM_NOME, stdin);
+
+        printf("|>| Área interna: ");
+        scanf("%lf", &imovel2[ReIMV].area);
+
+        printf("|>| Número de quartos: ");
+        scanf("%d", &imovel2[ReIMV].numQuartos);
+
+        printf("|>| Posição[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(imovel2[ReIMV].posicao, TAM_NOME, stdin);
+        
+        printf("|>| Andar: ");
+        scanf("%d", &imovel2[ReIMV].andar);
+
+        printf("|>| Valor do condomínio: R$");
+        scanf("%lf", &imovel2[ReIMV].valorDoCondominio);
+
+        printf("|>| Número de vagas na garagem: ");
+        scanf("%d", &imovel2[ReIMV].numVagasGaragem);
+        
+        printf("----------------------------------------------------------------------\n");
+        printf("\nENDEREÇO DO APARTAMENTO\n");
+
+        printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(imovel2[ReIMV].imovel.logradouro, TAM_NOME, stdin);
+
+        printf("|>| Número do apartamento: ");
+        scanf("%d", &imovel2[ReIMV].imovel.numeroImovel);
+
+        printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
+        limparBuffer();
+        fgets(imovel2[ReIMV].imovel.bairro, TAM_NOME, stdin);
+
+        printf("|>| CEP[Apenas o número]: ");
+        scanf("%d", &imovel2[ReIMV].imovel.cep);
+
+        printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
+        limparBuffer();
+        fgets(imovel2[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
+
+        printf("|>| Valor do apartamento: R$");
+        scanf("%lf", &imovel2[ReIMV].imovel.valor);
+
         do{
-            puts("Escolha um apartamento para cadastar: ");
-            scanf("%d", &ImovelEscolhido);
-            ReIMV = (ImovelEscolhido - 1);
-
-            if(strcmp(imovel2[ReIMV].tituloAnuncio, "VAZIO") == 0){
-                printf("Boa escolha, o Apartamento [%d] será perfeito para você.\n", ImovelEscolhido);
-                printf("----------------------------------------------------------------------\n");
-                printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
-                printf("|>| Título do anúncio do apartamento[MAX %d caracteres]: ", TAM_NOME-1);
-                limparBuffer();
-                fgets(imovel2[ReIMV].tituloAnuncio, TAM_NOME, stdin);
-
-                printf("|>| Área interna: ");
-                scanf("%lf", &imovel2[ReIMV].area);
-
-                printf("|>| Número de quartos: ");
-                scanf("%d", &imovel2[ReIMV].numQuartos);
-
-                printf("|>| Posição[MAX %d caracteres]: ", TAM_NOME-1);
-                limparBuffer();
-                fgets(imovel2[ReIMV].posicao, TAM_NOME, stdin);
-                
-                printf("|>| Andar: ");
-                scanf("%d", &imovel2[ReIMV].andar);
-
-                printf("|>| Valor do condomínio: R$");
-                scanf("%lf", &imovel2[ReIMV].valorDoCondominio);
-
-                printf("|>| Número de vagas na garagem: ");
-                scanf("%d", &imovel2[ReIMV].numVagasGaragem);
-                
-                printf("----------------------------------------------------------------------\n");
-                printf("\nENDEREÇO DO APARTAMENTO\n");
-
-                printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
-                limparBuffer();
-                fgets(imovel2[ReIMV].imovel.logradouro, TAM_NOME, stdin);
-
-                printf("|>| Número do apartamento: ");
-                scanf("%d", &imovel2[ReIMV].imovel.numeroImovel);
-
-                printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
-                limparBuffer();
-                fgets(imovel2[ReIMV].imovel.bairro, TAM_NOME, stdin);
-
-                printf("|>| CEP[Apenas o número]: ");
-                scanf("%d", &imovel2[ReIMV].imovel.cep);
-
-                printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
-                limparBuffer();
-                fgets(imovel2[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
-
-                printf("|>| Valor do apartamento: R$");
-                scanf("%lf", &imovel2[ReIMV].imovel.valor);
-
-                do{
-                    printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
-                    scanf("%d", &flag3);
-                    if(flag3 == 1){
-                        strcpy(imovel2[ReIMV].imovel.disponibilidade, "VENDA");
-                        break;
-                    }else if (flag3 == 2){
-                        strcpy(imovel2[ReIMV].imovel.disponibilidade, "ALUGUEL");
-                        break;
-                    }else{
-                        printf("VALOR INVÁLIDO\n");
-                    }
-                }while(flag3 != 1 || flag3 != 2 );
-
-                flag1 = 0;
+            printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
+            scanf("%d", &flag1);
+            if(flag1 == 1){
+                strcpy(imovel2[ReIMV].imovel.disponibilidade, "VENDA");
+                break;
+            }else if (flag1 == 2){
+                strcpy(imovel2[ReIMV].imovel.disponibilidade, "ALUGUEL");
                 break;
             }else{
-                puts("Este apartamento já esta ocupado, escolha outro.\n");
+                printf("VALOR INVÁLIDO\n");
             }
-        }while(flag1);
+        }while(flag1 != 1 || flag1 != 2 );
 
-        puts("\nAPARTAMENTO CADASTRADO COM SUCESSO!\n");
+        printf("\nAPARTAMENTO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
         mysleep(2500);
     }else{
         system(LIMPAR);
         puts("\nVocê escolheu cadastrar uma Terreno!");
-        ExibeImoviesDisp(3, imovel1,  imovel2, imovel3);
-        flag1 = 1;
+       
+        for(i=0; i < TAM_IMOVEIS; i++){
+                if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
+                    ReIMV = i;
+                    break;
+                }
+        }
+
+        printf("----------------------------------------------------------------------\n");
+        printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
+        printf("|>| Título do anúncio do Terreno[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(imovel3[ReIMV].tituloAnuncio, TAM_NOME, stdin);
+
+        printf("|>| Área do terreno: ");
+        scanf("%lf", &imovel3[ReIMV].area);
+
+        printf("----------------------------------------------------------------------\n");
+        printf("\nENDEREÇO DO TERRENO\n");
+
+        printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(imovel3[ReIMV].imovel.logradouro, TAM_NOME, stdin);
+
+        printf("|>| Número do terreno: ");
+        scanf("%d", &imovel3[ReIMV].imovel.numeroImovel);
+
+        printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
+        limparBuffer();
+        fgets(imovel3[ReIMV].imovel.bairro, TAM_NOME, stdin);
+
+        printf("|>| CEP[Apenas o número]: ");
+        scanf("%d", &imovel3[ReIMV].imovel.cep);
+
+        printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
+        limparBuffer();
+        fgets(imovel3[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
+
+        printf("|>| Valor do terreno: R$");
+        scanf("%lf", &imovel3[ReIMV].imovel.valor);
+
         do{
-            puts("Escolha um Terreno para cadastar: ");
-            scanf("%d", &ImovelEscolhido);
-            ReIMV = (ImovelEscolhido - 1);
-
-            if(strcmp(imovel3[ReIMV].tituloAnuncio, "VAZIO") == 0){
-                printf("Boa escolha, o Terreno [%d] será perfeito para você.\n", ImovelEscolhido);
-                printf("----------------------------------------------------------------------\n");
-                printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
-                printf("|>| Título do anúncio do Terreno[MAX %d caracteres]: ", TAM_NOME-1);
-                limparBuffer();
-                fgets(imovel3[ReIMV].tituloAnuncio, TAM_NOME, stdin);
-
-                printf("|>| Área do terreno: ");
-                scanf("%lf", &imovel3[ReIMV].area);
-
-                printf("----------------------------------------------------------------------\n");
-                printf("\nENDEREÇO DO TERRENO\n");
-
-                printf("\n|>| Logradouro[MAX %d caracteres]: ", TAM_NOME-1);
-                limparBuffer();
-                fgets(imovel3[ReIMV].imovel.logradouro, TAM_NOME, stdin);
-
-                printf("|>| Número do terreno: ");
-                scanf("%d", &imovel3[ReIMV].imovel.numeroImovel);
-
-                printf("|>| Bairro[MAX %d caracteres]: ", TAM_NOME - 1);
-                limparBuffer();
-                fgets(imovel3[ReIMV].imovel.bairro, TAM_NOME, stdin);
-
-                printf("|>| CEP[Apenas o número]: ");
-                scanf("%d", &imovel3[ReIMV].imovel.cep);
-
-                printf("|>| Cidade[MAX %d caracteres]:  ", TAM_NOME - 1);
-                limparBuffer();
-                fgets(imovel3[ReIMV].imovel.cidade, TAM_IMOVEIS, stdin);
-
-                printf("|>| Valor do terreno: R$");
-                scanf("%lf", &imovel3[ReIMV].imovel.valor);
-
-                do{
-                    printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
-                    scanf("%d", &flag3);
-                    if(flag3 == 1){
-                        strcpy(imovel3[ReIMV].imovel.disponibilidade, "VENDA");
-                        break;
-                    }else if (flag3 == 2){
-                        strcpy(imovel3[ReIMV].imovel.disponibilidade, "ALUGUEL");
-                        break;
-                    }else{
-                        printf("VALOR INVÁLIDO\n");
-                    }
-                }while(flag3 != 1 || flag3 != 2 );
-
-                flag1 = 0;
+            printf("|>| Disponibilidade para VENDA[1] ou ALUGUEL[2], digite openas 1 ou 2: ");
+            scanf("%d", &flag1);
+            if(flag1 == 1){
+                strcpy(imovel3[ReIMV].imovel.disponibilidade, "VENDA");
+                break;
+            }else if (flag1 == 2){
+                strcpy(imovel3[ReIMV].imovel.disponibilidade, "ALUGUEL");
                 break;
             }else{
-                puts("Este Terreno já esta ocupado, escolha outro.\n");
+                printf("VALOR INVÁLIDO\n");
             }
-        }while(flag1);
+        }while(flag1 != 1 || flag1 != 2 );
 
         puts("\nTERRENO CADASTRADO COM SUCESSO!\n");
         mysleep(2500);
