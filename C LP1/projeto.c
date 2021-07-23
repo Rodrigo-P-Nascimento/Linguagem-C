@@ -59,7 +59,7 @@ void limparBuffer(void);//função personalizada para limpar o buffer de entrada
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3); // Essa função ira preencher todos os imoveis com valores nulos
 
-int ConsultaImoveisLivres(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int *cas, int *apt, int *ter);
+void ConsultaImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
 
 void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//imovel pode ser 1, 2 o u 3
 
@@ -92,7 +92,8 @@ int main(void){
         case 1:
             CadastraImovel(CSImovies, ATImoveis, TRImoveis);
             break;
-
+        case 2:
+            ConsultaImoveis(CSImovies, ATImoveis, TRImoveis);
         default:
             puts("VALOR INVÁLIDO!");
             break;
@@ -100,9 +101,10 @@ int main(void){
 
     }while(opcao != -1);
 
-
+    limparBuffer();
     puts("\nOBRIGADO POR USAR O NOSSO PROGRAMA!");
-
+    printf("\nPressione ENTER para finalizar o programa.");
+    getchar();
 	return 0;
 }
 
@@ -172,30 +174,41 @@ void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     }
 }
 
-int ConsultaImoveisLivres(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int *cas, int *apt, int *ter){
+void ConsultaImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
-    int i = 0;
-    int imoveisDisponiveis = 0, casas = 0, apart = 0, terre = 0;
+    int i;
 
-    for(i =0; i < TAM_IMOVEIS; i++){
-        if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
-            imoveisDisponiveis++;
-            casas++;
-        }
-        if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
-            imoveisDisponiveis++;
-            apart++;
-        }
-        if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
-            imoveisDisponiveis++;
-            terre++;
+    puts("\nCasas disponíveis:");
+    puts("-----------------------");
+    for(i=0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") != 0){
+            printf("\tCasa[%d]\n", i+1);
+            mysleep(200);
         }
     }
-    *cas = casas;
-    *apt = apart;
-    *ter = terre;
+    
+    puts("\nApartamentos disponíveis:");
+    puts("-----------------------");
 
-    return imoveisDisponiveis;
+    for(i=0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") != 0){
+            printf("\tApartamento[%d]\n", i+1);
+            mysleep(200);
+        }
+    }
+
+    puts("\nTerrenos disponíveis:");
+    puts("-----------------------");
+
+    for(i=0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") != 0){
+            printf("\tTerreno[%d]\n", i+1);
+            mysleep(200);
+        }
+    }
+    limparBuffer();
+    printf("\nPressione ENTER para voltar ao menu.");
+    getchar();
 }
 
 void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -232,6 +245,7 @@ void MenuDeOpcoes(){
     puts("\nSISTEMA DE GERENCIAMENTO DE IMÓVEIS");
     puts("----------------------------------------\n");
     puts("[1]\tCadastrar um novo imóvel.");
+    puts("[2]\tConsultar todos os imóvies dispóniveis.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
