@@ -59,6 +59,10 @@ void TiraN( char *linhaString );//função para tirar o '\n' das strings
 
 void limparBuffer(void);//função personalizada para limpar o buffer de entrada
 
+int VerificaCAT(void);//Função faz uma verificação de 3 opções simples.
+
+void ImprimeDados(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que imprime os dados de um imóvel.
+
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3); // Essa função ira preencher todos os imoveis com valores nulos
 
 void ConsultaImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
@@ -71,6 +75,9 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
 
 void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que vai buscar imóveis por titúlo.
 
+void BuscaBairro(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que vai buscar imóveis por bairro.
+
+void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que vai buscar imóveis por acima de um valor X.
 
 int main(void){
 
@@ -100,8 +107,17 @@ int main(void){
         case 2:
             ConsultaImoveis(CSImovies, ATImoveis, TRImoveis);
             break;
-        case 3:
+        case 3: 
+            ImprimeDados(CSImovies, ATImoveis, TRImoveis);
+            break;
+        case 4:
             BuscaTitulo(CSImovies, ATImoveis, TRImoveis);
+            break;
+        case 5: 
+            BuscaBairro(CSImovies, ATImoveis, TRImoveis);
+            break;
+        case 6: 
+            BuscaValor(CSImovies, ATImoveis, TRImoveis);
             break;
         default:
             puts("VALOR INVÁLIDO!");
@@ -135,6 +151,88 @@ void limparBuffer(void){
     char c;
 
     while((c = getchar()) != '\n' && c != EOF);
+}
+
+int VerificaCAT(){
+
+    int flagg = 1; 
+    int opp;
+
+    while (flagg){
+        puts("  [1]-> Casa \n  [2]-> Apartamento \n  [3]-> Terreno");
+        printf("\nQual o tipo do seu imóvel? ");
+        scanf("%d", &opp);
+
+        if(opp == 1 || opp == 2 || opp == 3){
+            flagg = 0;
+            break;
+        }else{
+            puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
+            mysleep(1000);
+            system(LIMPAR);
+        }
+    }
+    return opp;
+}
+
+void ImprimeDados(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+    int op3,imo;
+
+    system(LIMPAR);
+
+    puts("Qual o tipo de imóvel você deseja olhar as informações: ");
+    op3 = VerificaCAT();
+    ExibeImoviesDisp(op3, imovel1, imovel2, imovel3);
+    printf("Escolha um dentre os demais: ");
+    scanf("%d", &imo);
+    imo = imo - 1;//Pois os arrays começam em 0.
+    puts("");
+    if(op3 == 1){//CASA
+        
+        printf("Titúlo do anúncio: %s\n", imovel1[imo].tituloAnuncio);
+        printf("Disponibilidade: %s\n", imovel1[imo].imovel.disponibilidade);
+        printf("Rua: %s\n", imovel1[imo].imovel.logradouro);
+        printf("Bairro: %s\n", imovel1[imo].imovel.bairro);
+        printf("Cidade: %s\n", imovel1[imo].imovel.cidade);
+        printf("Número da Casa: %d\n",imovel1[imo].imovel.numeroImovel);
+        printf("CEP: %d\n", imovel1[imo].imovel.cep);
+        printf("Valor: R$%.2lf\n", imovel1[imo].imovel.valor);
+
+        printf("Área construída: %.2lf m2\n", imovel1[imo].areaConstruida);
+        printf("Área do terreno: %.2lf m2\n",imovel1[imo].areaTerreno); 
+        printf("Número de pavimentos: %d\n", imovel1[imo].numPavimentos); 
+        printf("Número de quartos: %d\n", imovel1[imo].numQuartos);
+
+    }else if(op3 == 2){
+        printf("Titúlo do anúncio: %s\n", imovel2[imo].tituloAnuncio);
+        printf("Disponibilidade: %s\n", imovel2[imo].imovel.disponibilidade);
+        printf("Posição em relação ao sol: %s\n", imovel2[imo].posicao);
+        printf("Rua: %s\n", imovel2[imo].imovel.logradouro);
+        printf("Bairro: %s\n", imovel2[imo].imovel.bairro);
+        printf("Cidade: %s\n", imovel2[imo].imovel.cidade);
+        printf("Número do Apartamento: %d\n",imovel2[imo].imovel.numeroImovel);
+        printf("CEP: %d\n", imovel2[imo].imovel.cep);
+        printf("Valor: R$%.2lf\n", imovel2[imo].imovel.valor);
+
+        printf("Andar: %d\n", imovel2[imo].andar);
+        printf("Área: %.2lfm2\n", imovel2[imo].area);
+        printf("Número de quartos: %d\n", imovel2[imo].numQuartos);
+        printf("Número de Vagas na garagem: %d\n", imovel2[imo].numVagasGaragem);
+        printf("Valor do condominio: R$%.2lf\n", imovel2[imo].valorDoCondominio);
+
+    }else if(op3 == 3){
+        printf("Titúlo do anúncio: %s\n", imovel3[imo].tituloAnuncio);
+        printf("Disponibilidade: %s\n", imovel3[imo].imovel.disponibilidade);
+        printf("Rua: %s\n", imovel3[imo].imovel.logradouro);
+        printf("Bairro: %s\n", imovel3[imo].imovel.bairro);
+        printf("Cidade: %s\n", imovel3[imo].imovel.cidade);
+        printf("Número da Casa: %d\n",imovel3[imo].imovel.numeroImovel);
+        printf("CEP: %d\n", imovel3[imo].imovel.cep);
+        printf("Valor: R$%.2lf\n", imovel3[imo].imovel.valor);
+        printf("Área do terreno: %.2lf m2\n", imovel3[imo].area);
+    }
+    system("pause");
 }
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -233,21 +331,21 @@ void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *im
     if(tipo == 1){//CASA
         printf("Temos disponível as seguintes casas:\n");
         for(i=0; i < TAM_IMOVEIS; i++){
-            if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
+            if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") != 0){
                 printf("\t Casa numero: [%d]\n", i+1);
             }
         }
     }else if(tipo == 2){//APARTAMENTO
         printf("Temos disponível os seguintes Apartamentos:\n");
         for(i=0; i < TAM_IMOVEIS; i++){
-            if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
+            if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") != 0){
                 printf("\t Apartamento numero: [%d]\n", i+1);
             }
         }
     }else if(tipo == 3){//TERRENO
         printf("Temos disponível os seguintes Terrenos:\n");
         for(i=0; i < TAM_IMOVEIS; i++){
-            if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
+            if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") != 0){
                 printf("\t Terreno numero: [%d]\n", i+1);
             }
         }
@@ -260,7 +358,10 @@ void MenuDeOpcoes(){
     puts("----------------------------------------\n");
     puts("[1]\tCadastrar um novo imóvel.");
     puts("[2]\tConsultar todos os imóvies dispóniveis.");
-    puts("[3]\tBuscar um imóvel pelo titúlo.");
+    puts("[3]\tImprmir dados de um imóvel.");
+    puts("[4]\tBuscar um imóvel pelo titúlo.");
+    puts("[5]\tBuscar um imóvel pelo bairro.");
+    puts("[6]\tBuscar um imóvel pelo valor.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
@@ -269,28 +370,13 @@ void MenuDeOpcoes(){
 
 void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
-    int flag1 = 1;
     int i=0;
-    int op1;
-
     int ReIMV=0;
+    int op1;
+    int flag1=1;
 
-    while (flag1){
+    op1 = VerificaCAT();
 
-        puts("  [1]-> Casa \n  [2]-> Apartamento \n  [3]-> Terreno");
-        printf("\n Qual o tipo do seu imóvel? ");
-        scanf("%d", &op1);
-
-
-        if(op1 == 1 || op1 == 2 || op1 == 3){
-            flag1 = 0;
-            break;
-        }else{
-            puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
-            mysleep(1000);
-            system(LIMPAR);
-        }
-    }
     if(op1 == 1){
             system(LIMPAR);
             puts("\nVocê escolheu cadastrar uma casa!");
@@ -508,34 +594,23 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             }
         }while(flag1 != 1 || flag1 != 2 );
 
-        puts("\nTERRENO CADASTRADO COM SUCESSO!\n");
+        
+        printf("\nTERRENO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
         mysleep(2500);
     }
 }
 
 void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     
-    int flag2=1, cont=0;
+    int cont=0;
     int op2, i;
     char procura[TAM_NOME];
 
 
     system(LIMPAR);
-    while (flag2){
-        puts("Para buscar um imóvel pelo titúlo, você deve escolher o tipo primeiro.");
-        puts("  [1]-> Casa \n  [2]-> Apartamento \n  [3]-> Terreno");
-        printf("\nQual o tipo do seu imóvel? ");
-        scanf("%d", &op2);
-
-        if(op2 == 1 || op2 == 2 || op2 == 3){
-            flag2 = 0;
-            break;
-        }else{
-            puts("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
-            mysleep(1000);
-            system(LIMPAR);
-        }
-    }
+  
+    puts("Para buscar um imóvel pelo titúlo, você deve escolher o tipo primeiro.");
+    op2 = VerificaCAT();
 
     if(op2 == 1){
         printf("Digite o titúlo da casa que procura[MAX %d caracteres]: ", TAM_NOME-1);
@@ -576,7 +651,7 @@ void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
         for(i=0; i < TAM_IMOVEIS; i++){
             if(strcmp(procura, imovel3[i].tituloAnuncio) == 0){
-                printf("Encontramos um terreno com essa descrição: Apartamento[%d]\n", i+1);
+                printf("Encontramos um terreno com essa descrição: Terreno[%d]\n", i+1);
                 cont++;
             }
         }
@@ -587,3 +662,124 @@ void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     puts("");
     system("pause");
 }
+
+void BuscaBairro(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+    int cont=0;
+    int op4, i;
+    char procura[TAM_NOME];
+
+    system(LIMPAR);
+  
+    puts("Para buscar um imóvel pelo bairros, você deve escolher o tipo primeiro.");
+    op4 = VerificaCAT();
+
+    if(op4 == 1){
+        printf("Digite o bairro da casa que procura[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(procura, TAM_NOME, stdin);
+        TiraN(procura);
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(procura, imovel1[i].imovel.bairro) == 0){
+                printf("Encontramos uma casa nesse bairro: Casa[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhuma casa nesse bairro.\n");
+        }
+    }else if(op4 == 2){
+        cont= 0;
+        printf("Digite o bairro do apartamento que procura[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(procura, TAM_NOME, stdin);
+        TiraN(procura);
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(procura, imovel2[i].imovel.bairro) == 0){
+                printf("Encontramos um apartamento nesse bairro: Apartamento[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhum apartamento nesse bairro.\n");
+        }
+    }else if(op4 == 3){
+        cont= 0;
+        printf("Digite o bairro do terreno que procura[MAX %d caracteres]: ", TAM_NOME-1);
+        limparBuffer();
+        fgets(procura, TAM_NOME, stdin);
+        TiraN(procura);
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(procura, imovel3[i].imovel.bairro) == 0){
+                printf("Encontramos um terreno nesse bairro: Terreno[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhum terreno nesse bairro.\n");
+        }
+    }
+    puts("");
+    system("pause");
+}
+
+void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+    int cont=0;
+    double valorPESQ;
+    int op5, i;
+    char procura[TAM_NOME];
+
+    system(LIMPAR);
+  
+    puts("Para buscar um imóvel pelo valor, você deve escolher o tipo primeiro.");
+    op5 = VerificaCAT();
+
+    if(op5 == 1){
+        printf("Digite o valor em reais da casa que procura: R$");
+        scanf("%lf", &valorPESQ);
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(valorPESQ <= imovel1[i].imovel.valor){
+                printf("Encontramos uma casa nesse valor ou acima : Casa[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhuma casa nesse valor.\n");
+        }
+    }else if(op5 == 2){
+        cont= 0;
+        printf("Digite o valor em reais do apartamento que procura: R$");
+        scanf("%lf", &valorPESQ);
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(valorPESQ <= imovel2[i].imovel.valor){
+                printf("Encontramos um apartamento nesse valor ou acima : Apartamento[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhum apartamento nesse valor.\n");
+        }
+    }else if(op5 == 3){
+        cont= 0;
+        printf("Digite o valor em reais do terreno que procura: R$");
+        scanf("%lf", &valorPESQ);
+
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(valorPESQ <= imovel3[i].imovel.valor){
+                printf("Encontramos um terreno nesse valor ou acima : Terreno[%d]\n", i+1);
+                cont++;
+            }
+        }
+        if(cont == 0){
+            puts("Não tem nenhum Terreno nesse valor.\n");
+        }
+    }
+    puts("");
+    system("pause");
+
+}
+
+//opa
