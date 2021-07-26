@@ -79,6 +79,10 @@ void BuscaBairro(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Funç�
 
 void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que vai buscar imóveis por acima de um valor X.
 
+void DispoVenda(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função vai RETORNA todos os imoveis disponiveis para venda
+
+void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função vai RETORNA todos os imoveis disponiveis para alugar
+
 int main(void){
 
 
@@ -119,6 +123,12 @@ int main(void){
         case 6: 
             BuscaValor(CSImovies, ATImoveis, TRImoveis);
             break;
+        case 7: 
+            DispoVenda(CSImovies, ATImoveis, TRImoveis);
+            break; 
+        case 8: 
+            DispoAluga(CSImovies, ATImoveis, TRImoveis);
+            break;    
         default:
             puts("VALOR INVÁLIDO!");
             break;
@@ -362,6 +372,8 @@ void MenuDeOpcoes(){
     puts("[4]\tBuscar um imóvel pelo titúlo.");
     puts("[5]\tBuscar um imóvel pelo bairro.");
     puts("[6]\tBuscar um imóvel pelo valor.");
+    puts("[7]\tBuscar por todos os imóveis a venda.");
+    puts("[8]\tBuscar por todos os imóveis a alugar.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
@@ -741,7 +753,7 @@ void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
         for(i=0; i < TAM_IMOVEIS; i++){
             if(valorPESQ <= imovel1[i].imovel.valor){
-                printf("Encontramos uma casa nesse valor ou acima : Casa[%d]\n", i+1);
+                printf("Encontramos uma casa nesse valor ou acima: Casa[%d]\n", i+1);
                 cont++;
             }
         }
@@ -755,7 +767,7 @@ void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
         for(i=0; i < TAM_IMOVEIS; i++){
             if(valorPESQ <= imovel2[i].imovel.valor){
-                printf("Encontramos um apartamento nesse valor ou acima : Apartamento[%d]\n", i+1);
+                printf("Encontramos um apartamento nesse valor ou acima: Apartamento[%d]\n", i+1);
                 cont++;
             }
         }
@@ -769,7 +781,7 @@ void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
         for(i=0; i < TAM_IMOVEIS; i++){
             if(valorPESQ <= imovel3[i].imovel.valor){
-                printf("Encontramos um terreno nesse valor ou acima : Terreno[%d]\n", i+1);
+                printf("Encontramos um terreno nesse valor ou acima: Terreno[%d]\n", i+1);
                 cont++;
             }
         }
@@ -782,4 +794,68 @@ void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
 }
 
-//opa
+void DispoVenda(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+    int i = 0;
+    int op6;
+
+    puts("Para mostrar os imóveis a venda digite o tipo.");
+    op6 = VerificaCAT();
+
+    if(op6 == 1){//CASA
+        printf("Temos disponível para venda as seguintes casas:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel1[i].imovel.disponibilidade,  "VENDA") == 0){
+                printf("\t Casa: [%d]\n", i+1);
+            }
+        }
+    }else if(op6 == 2){//APARTAMENTO
+        printf("Temos disponível para venda os seguintes Apartamentos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel2[i].imovel.disponibilidade,  "VENDA") == 0){
+                printf("\t Apartamento: [%d]\n", i+1);
+            }
+        }
+    }else if(op6 == 3){//TERRENO
+        printf("Temos disponível para venda os seguintes Terrenos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel3[i].imovel.disponibilidade,  "VENDA") == 0){
+                printf("\t Terreno: [%d]\n", i+1);
+            }
+        }
+    }
+    system("pause");
+}
+
+void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+    int i = 0;
+    int op7;
+
+    puts("Para mostrar os imóveis para alugar digite o tipo.");
+    op7 = VerificaCAT();
+
+    if(op7 == 1){//CASA
+        printf("Temos disponível para alugar as seguintes casas:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel1[i].imovel.disponibilidade,  "ALUGUEL") == 0){
+                printf("\t Casa: [%d]\n", i+1);
+            }
+        }
+    }else if(op7 == 2){//APARTAMENTO
+        printf("Temos disponível para alugar os seguintes Apartamentos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel2[i].imovel.disponibilidade,  "ALUGUEL") == 0){
+                printf("\t Apartamento: [%d]\n", i+1);
+            }
+        }
+    }else if(op7 == 3){//TERRENO
+        printf("Temos disponível para alugar os seguintes Terrenos:\n");
+        for(i=0; i < TAM_IMOVEIS; i++){
+            if(strcmp(imovel3[i].imovel.disponibilidade,  "ALUGUEL") == 0){
+                printf("\t Terreno: [%d]\n", i+1);
+            }
+        }
+    }
+    system("pause");
+}
