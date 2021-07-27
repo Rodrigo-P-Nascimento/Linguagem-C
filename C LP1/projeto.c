@@ -83,6 +83,8 @@ void DispoVenda(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Funçã
 
 void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função vai RETORNA todos os imoveis disponiveis para alugar
 
+void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que Remove um imóvel do sistema
+
 int main(void){
 
 
@@ -128,7 +130,10 @@ int main(void){
             break; 
         case 8: 
             DispoAluga(CSImovies, ATImoveis, TRImoveis);
-            break;    
+            break;   
+        case 9: 
+            RemoveImovel(CSImovies, ATImoveis, TRImoveis);
+            break;  
         default:
             puts("VALOR INVÁLIDO!");
             break;
@@ -372,8 +377,9 @@ void MenuDeOpcoes(){
     puts("[4]\tBuscar um imóvel pelo titúlo.");
     puts("[5]\tBuscar um imóvel pelo bairro.");
     puts("[6]\tBuscar um imóvel pelo valor.");
-    puts("[7]\tBuscar por todos os imóveis a venda.");
-    puts("[8]\tBuscar por todos os imóveis a alugar.");
+    puts("[7]\tBuscar por todos os imóveis para venda.");
+    puts("[8]\tBuscar por todos os imóveis para alugar.");
+    puts("[9]\tPara remover um imóvel.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
@@ -856,6 +862,155 @@ void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
                 printf("\t Terreno: [%d]\n", i+1);
             }
         }
+    }
+    system("pause");
+}
+
+void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+
+    int op8;
+    char res;
+    int flag1; 
+    int imovelEscolhido;
+
+
+    puts("Para remover um imóvel digite um dos tipos abaixo: ");
+    op8 = VerificaCAT();
+
+    switch(op8){
+        case 1://CASA
+            flag1 = 1;
+            while(flag1){
+
+                printf("Tem certeza que deseja remover uma casa do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op8, imovel1, imovel2, imovel3);
+                    printf("Selecione uma casa: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    strcpy(imovel1[imovelEscolhido].imovel.logradouro, "VAZIO");
+                    strcpy(imovel1[imovelEscolhido].imovel.bairro, "VAZIO");
+                    strcpy(imovel1[imovelEscolhido].imovel.cidade, "VAZIO");
+                    strcpy(imovel1[imovelEscolhido].imovel.disponibilidade, "VAZIO");
+                    imovel1[imovelEscolhido].imovel.numeroImovel = 0;
+                    imovel1[imovelEscolhido].imovel.cep = 0;
+                    imovel1[imovelEscolhido].imovel.valor = 0;
+
+                    strcpy(imovel1[imovelEscolhido].tituloAnuncio, "VAZIO");
+                    imovel1[imovelEscolhido].areaConstruida = 0;
+                    imovel1[imovelEscolhido].areaTerreno = 0;
+                    imovel1[imovelEscolhido].numPavimentos = 0;
+                    imovel1[imovelEscolhido].numQuartos = 0;
+
+                    printf("Remoção completa\n");
+                    flag1 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não remover nada.");
+                    flag1 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+            
+            break;
+        case 2://APARTAMENTO
+            flag1 = 1;
+            while(flag1){
+
+                printf("Tem certeza que deseja remover um apartamento do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op8, imovel1, imovel2, imovel3);
+                    printf("Selecione um apartamento: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    strcpy(imovel2[imovelEscolhido].imovel.logradouro, "VAZIO");
+                    strcpy(imovel2[imovelEscolhido].imovel.bairro, "VAZIO");
+                    strcpy(imovel2[imovelEscolhido].imovel.cidade, "VAZIO");
+                    strcpy(imovel2[imovelEscolhido].imovel.disponibilidade, "VAZIO");
+                    imovel2[imovelEscolhido].imovel.numeroImovel = 0;
+                    imovel2[imovelEscolhido].imovel.cep = 0;
+                    imovel2[imovelEscolhido].imovel.valor = 0;
+
+                    strcpy(imovel2[imovelEscolhido].tituloAnuncio, "VAZIO");
+                    strcpy(imovel2[imovelEscolhido].posicao, "VAZIO");
+                    imovel2[imovelEscolhido].andar = 0;
+                    imovel2[imovelEscolhido].area = 0;
+                    imovel2[imovelEscolhido].numQuartos = 0;
+                    imovel2[imovelEscolhido].numVagasGaragem = 0;
+                    imovel2[imovelEscolhido].valorDoCondominio = 0;
+                    
+                    printf("Remoção completa\n");
+                    flag1 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não remover nada.");
+                    flag1 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+            
+            break;
+        case 3://TERRENO
+            flag1 = 1;
+            while(flag1){
+
+                printf("Tem certeza que deseja remover um terreno do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op8, imovel1, imovel2, imovel3);
+                    printf("Selecione um terreno: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    strcpy(imovel3[imovelEscolhido].imovel.logradouro, "VAZIO");
+                    strcpy(imovel3[imovelEscolhido].imovel.bairro, "VAZIO");
+                    strcpy(imovel3[imovelEscolhido].imovel.cidade, "VAZIO");
+                    strcpy(imovel3[imovelEscolhido].imovel.disponibilidade, "VAZIO");
+                    imovel3[imovelEscolhido].imovel.numeroImovel = 0;
+                    imovel3[imovelEscolhido].imovel.cep = 0;
+                    imovel3[imovelEscolhido].imovel.valor = 0;
+
+                    strcpy(imovel3[imovelEscolhido].tituloAnuncio, "VAZIO");
+                    imovel3[imovelEscolhido].area = 0;
+
+                    printf("Remoção completa\n");
+                    flag1 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não remover nada.");
+                    flag1 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+
+            break;
+        default:
+            printf("OPÇÃO INVÁLIDA!\n");
+            break;
+    
     }
     system("pause");
 }
