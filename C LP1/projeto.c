@@ -71,7 +71,7 @@ void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *im
 
 void MenuDeOpcoes();
 
-void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);
+void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int modo, int valorEscolhido, int opcao);
 
 void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que vai buscar imóveis por titúlo.
 
@@ -85,8 +85,9 @@ void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Funçã
 
 void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que Remove um imóvel do sistema
 
-int main(void){
+void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//função que idita um imóvel já cadastrado
 
+int main(void){
 
     int opcao=1;
     int contadorCS=0, contadorAp=0, contadorTR=0;
@@ -108,7 +109,7 @@ int main(void){
             mysleep(1000);
             break;
         case 1:
-            CadastraImovel(CSImovies, ATImoveis, TRImoveis);    
+            CadastraImovel(CSImovies, ATImoveis, TRImoveis, 0, 0, 0);    
             break;
         case 2:
             ConsultaImoveis(CSImovies, ATImoveis, TRImoveis);
@@ -134,6 +135,9 @@ int main(void){
         case 9: 
             RemoveImovel(CSImovies, ATImoveis, TRImoveis);
             break;  
+        case 10: 
+            EditarImovel(CSImovies, ATImoveis, TRImoveis);
+            break; 
         default:
             puts("VALOR INVÁLIDO!");
             break;
@@ -380,30 +384,41 @@ void MenuDeOpcoes(){
     puts("[7]\tBuscar por todos os imóveis para venda.");
     puts("[8]\tBuscar por todos os imóveis para alugar.");
     puts("[9]\tPara remover um imóvel.");
+    puts("[10]\tEditar um imóvel.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
 
 }
 
-void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3, int modo, int valorEscolhido, int opcao){
 
     int i=0;
     int ReIMV=0;
     int op1;
     int flag1=1;
-
-    op1 = VerificaCAT();
-
+    //modo =  0, cadastro normal, modo = 1, recadastro
+    if(modo == 0){
+        op1 = VerificaCAT();
+    }else if(modo == 1){
+        op1 = opcao;
+    }
+    
     if(op1 == 1){
             system(LIMPAR);
-            puts("\nVocê escolheu cadastrar uma casa!");
+
+            if(modo == 0){
+                puts("\nVocê escolheu cadastrar uma casa!");
        
-            for(i=0; i < TAM_IMOVEIS; i++){
-                if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
-                    ReIMV = i;
-                    break;
+                for(i=0; i < TAM_IMOVEIS; i++){
+                    if(strcmp(imovel1[i].tituloAnuncio,  "VAZIO") == 0){
+                        ReIMV = i;
+                        break;
+                    }
                 }
+            }else if(modo == 1){
+                puts("\nVocê escolheu recadastar uma casa!");
+                ReIMV = valorEscolhido;
             }
             
             printf("----------------------------------------------------------------------\n");
@@ -465,21 +480,34 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
                 }
             }while(flag1 != 1 || flag1 != 2 );
 
-            printf("\nCASA [%d] CADASTRADA COM SUCESSO!\n", ReIMV+1);
-            mysleep(2500);
+            if(modo == 0){
 
+                printf("\nCASA [%d] CADASTRADA COM SUCESSO!\n", ReIMV+1);
+                mysleep(2500);
+
+            }else if(modo == 1){
+                printf("\nCASA [%d] RECADASTRADA COM SUCESSO!\n", valorEscolhido+1);
+                mysleep(2500);
+            }
+            
     }else if(op1 == 2){
 
         system(LIMPAR);
-        puts("\nVocê escolheu cadastrar uma Apartamento!");
 
-        for(i=0; i < TAM_IMOVEIS; i++){
-                if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
-                    ReIMV = i;
-                    break;
+        if(modo == 0){
+                puts("\nVocê escolheu cadastrar uma Apartamento!");
+
+                for(i=0; i < TAM_IMOVEIS; i++){
+                        if(strcmp(imovel2[i].tituloAnuncio,  "VAZIO") == 0){
+                            ReIMV = i;
+                            break;
+                        }
                 }
+        }else if(modo == 1){
+            puts("\nVocê escolheu recadastar um apartamento!");
+            ReIMV = valorEscolhido;
         }
-
+        
         printf("----------------------------------------------------------------------\n");
         printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
         printf("|>| Título do anúncio do apartamento[MAX %d caracteres]: ", TAM_NOME-1);
@@ -548,18 +576,32 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             }
         }while(flag1 != 1 || flag1 != 2 );
 
-        printf("\nAPARTAMENTO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
-        mysleep(2500);
+        if(modo == 0){
+            printf("\nAPARTAMENTO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
+            mysleep(2500);
+
+        }else if(modo == 1){
+            printf("\nAPARTAMENTO [%d] RECADASTRADO COM SUCESSO!\n", valorEscolhido+1);
+            mysleep(2500);
+        }
+        
     }else{
         system(LIMPAR);
-        puts("\nVocê escolheu cadastrar uma Terreno!");
+
+        if(modo == 0){
+            puts("\nVocê escolheu cadastrar uma Terreno!");
        
-        for(i=0; i < TAM_IMOVEIS; i++){
+            for(i=0; i < TAM_IMOVEIS; i++){
                 if(strcmp(imovel3[i].tituloAnuncio,  "VAZIO") == 0){
                     ReIMV = i;
                     break;
                 }
+            }
+        }else if(modo == 1){
+            puts("\nVocê escolheu recadastar um Terreno!");
+            ReIMV = valorEscolhido;
         }
+        
 
         printf("----------------------------------------------------------------------\n");
         printf("Informe alguns dados a seguir, sempre colocando apenas o que se pede.\n\n");
@@ -612,9 +654,14 @@ void CadastraImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             }
         }while(flag1 != 1 || flag1 != 2 );
 
+        if(modo == 0){
+            printf("\nTERRENO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
+            mysleep(2500);
+        }else if(modo == 1){
+            printf("\nTERRENO [%d] RECADASTRADO COM SUCESSO!\n", valorEscolhido+1);
+            mysleep(2500);
+        }
         
-        printf("\nTERRENO [%d] CADASTRADO COM SUCESSO!\n", ReIMV+1);
-        mysleep(2500);
     }
 }
 
@@ -868,12 +915,10 @@ void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
 void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
-
     int op8;
     char res;
     int flag1; 
     int imovelEscolhido;
-
 
     puts("Para remover um imóvel digite um dos tipos abaixo: ");
     op8 = VerificaCAT();
@@ -1014,3 +1059,115 @@ void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     }
     system("pause");
 }
+
+void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+
+    int op9;
+    char res;
+    int flag2; 
+    int imovelEscolhido;
+
+    puts("Para editar um imóvel digite um dos tipos abaixo: ");
+    op9= VerificaCAT();
+
+    switch(op9){
+        case 1://CASA
+            flag2 = 1;
+            while(flag2){
+
+                printf("Tem certeza que deseja editar uma casa do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op9, imovel1, imovel2, imovel3);
+                    printf("Selecione uma casa: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    CadastraImovel(imovel1, imovel2, imovel3, 1, imovelEscolhido, 1);
+        
+                    printf("Edição completa\n");
+                    flag2 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não editar nada.");
+                    flag2 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+            
+            break;
+        case 2://APARTAMENTO
+            flag2 = 1;
+            while(flag2){
+
+                printf("Tem certeza que deseja editar um apartamento do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op9, imovel1, imovel2, imovel3);
+                    printf("Selecione um apartamento: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    CadastraImovel(imovel1, imovel2, imovel3, 1, imovelEscolhido, 2);
+                    
+                    printf("Edição completa\n");
+                    flag2 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não editar nada.");
+                    flag2 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+            
+            break;
+        case 3://TERRENO
+            flag2 = 1;
+            while(flag2){
+
+                printf("Tem certeza que deseja editar um terreno do sistema[S/N]? ");
+                limparBuffer();
+                scanf("%c", &res);
+
+                if(res ==  'S' || res == 's'){
+                    ExibeImoviesDisp(op9, imovel1, imovel2, imovel3);
+                    printf("Selecione um terreno: ");
+                    scanf("%d", &imovelEscolhido);
+
+                    imovelEscolhido = imovelEscolhido - 1; //Array inicia em 0, então temos que tirar 1 do valor original aqui
+
+                    CadastraImovel(imovel1, imovel2, imovel3, 1, imovelEscolhido, 3);
+                    
+                    printf("Edição completa\n");
+                    flag2 = 0;
+                    break;
+                }else if(res == 'N' || res == 'n'){
+                    puts("Você optou por não editar nada.");
+                    flag2 = 0;
+                    break;
+                }else{
+                    puts("RESPOSTA INVÁLIDA!");
+                    system(LIMPAR);
+                }
+            }
+
+            break;
+        default:
+            printf("OPÇÃO INVÁLIDA!\n");
+            break;
+    }
+    system("pause");
+}
+//FIM
