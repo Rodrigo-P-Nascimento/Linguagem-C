@@ -51,10 +51,11 @@ void LeArquivo(int *vet){
 */
 
 void organizaArquivo(int *vet);
+void bubble_sort(int vetor[], int n);
 
 int main(void){
 
-    int vect[11];
+    int vect[10];
 
     organizaArquivo(&vect[0]);
 
@@ -64,6 +65,21 @@ int main(void){
     return 0;
 }
 
+void bubble_sort (int vetor[], int n) {
+    int k, j, aux;
+
+    for (k = 1; k < n; k++) {
+        
+        for (j = 0; j < n - 1; j++) {
+
+            if (vetor[j] > vetor[j + 1]) {
+                aux          = vetor[j];
+                vetor[j]     = vetor[j + 1];
+                vetor[j + 1] = aux;
+            }
+        }
+    }
+}
 void organizaArquivo(int *vet){
 
     int i, j, aux;
@@ -74,25 +90,17 @@ void organizaArquivo(int *vet){
 
     for(i=0; i < 10; i++){              //Vamos copiar os valores do arquivo para o array
         fscanf(ar1, "%d\n", &vet[i]);
-        printf(" %d ", vet[i]);
     }
 
     ar1 = fopen("teste03.txt", "w");    //Vamos criar um arquivo, que vai receber os numeros em ordem
-
-    for(i=0;i<10;i++){
-        //bubble sort 
-        for(j=0;j < 10;j++){
-            if(vet[i] > vet[j]){
-
-                aux = vet[i];
-                vet[i] = vet[j];
-                vet[j] = aux;
-            }
-        }
-        printf("Num: %d\n", vet[i]);
-        fprintf(ar1, "%d\n", vet[i]);   //Vamos escrever os valores no arquivo teste03.txt
+   
+    bubble_sort(&vet[0], 10);
+    puts("");
+    for(i=0; i < 10; i++){              //Vamos copiar os valores do arquivo para o array
+        printf("NOVO VALOR[%d]: %d\n",i , vet[i]);
+        fprintf(ar1, "%d\n", vet[i]);
     }
-
     fclose(ar1);
     
 }
+
