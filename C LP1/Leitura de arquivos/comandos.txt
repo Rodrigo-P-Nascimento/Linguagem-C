@@ -15,9 +15,8 @@ fwrite()    Escreve um bloco de dados para um fluxo
 rewind()    Reposiciona o localizador de posição de arquivo no começo do arquivo
 remove()    Apaga um arquivo
 ----------------------------------------------------------------------------------------------------
-"r"	read: Arquivo aberto para operações de entrada. O arquivo deve existir.
-"w"	write: Cria um arquivo vazio para operações de saída. Se já existir um arquivo com o mesmo nome, seu conteúdo será descartado e o arquivo será tratado como um novo arquivo vazio.
-"a"	append: Abra o arquivo para saída no final de um arquivo. As operações de saída sempre gravam dados no final do arquivo, expandindo-o. As operações de reposicionamento ( fseek , fsetpos , rewind ) são ignoradas. O arquivo é criado se não existir.
-"r +"	ler / atualizar: abre um arquivo para atualização (para entrada e saída). O arquivo deve existir.
-"w +"	escrever / atualizar: Crie um arquivo vazio e abra-o para atualização (para entrada e saída). Se já existir um arquivo com o mesmo nome, seu conteúdo será descartado e o arquivo será tratado como um novo arquivo vazio.
-"a +"	append / update: abre um arquivo para atualização (para entrada e saída) com todas as operações de saída gravando dados no final do arquivo. As operações de reposicionamento ( fseek , fsetpos , rewind ) afetam as próximas operações de entrada, mas as operações de saída movem a posição de volta ao final do arquivo. O arquivo é criado se não existir.
+r: Permissão de abertura somente para leitura. É necessário que o arquivo já esteja presente no disco.
+
+w: Permissão de abertura para escrita (gravação). Este código cria o arquivo caso ele não exista, e caso o mesmo exista ele recria o arquivo novamente fazendo com que o conteúdo seja perdido. Portanto devemos tomar muito cuidado ao usar esse tipo de abertura.
+
+a: Permissão para abrir um arquivo texto para escrita(gravação), permite acrescentar novos dados ao final do arquivo. Caso não exista, ele será criado.
