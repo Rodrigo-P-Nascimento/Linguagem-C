@@ -1,22 +1,24 @@
 COMANDOS PARA A MANIPULAÇÃO DE ARQUIVOS EM C
 
 ----------------------------------------------------------------------------------------------------
-fopen()     Abre um fluxo
-fclose()    Fecha um fluxo
-putc()      Escreve um caractere para um fluxo  
-getc()      Lê um caractere para um    fluxo
-fseek()     Procura por um byte especificado no fluxo
-fprintf()   É para um fluxo aquilo que o printf() é para o console
-fscanf()    É para um fluxo aquilo que o scanf() é para o console
-feof()      Retorna verdadeiro se o fim do arquivo é encontrado
-ferror()    Retorna verdadeiro se ocorreu um erro
-fread()     Lê um bloco de dados de um fluxo
-fwrite()    Escreve um bloco de dados para um fluxo
-rewind()    Reposiciona o localizador de posição de arquivo no começo do arquivo
-remove()    Apaga um arquivo
+fopen()     Abre um arquivo.
+fclose()    Fecha o arquivo garantindo a transferência do buffer.
+fflush()    Descarrega o buffer.
+fscanf()    Leitura de entrada formatada (semelhante ao scanf()).
+fprintf()   Escrita de saída formatada (semelhante ao printf()).
+fgets()     Obtém uma string do arquivo.
+fgetc()     Obtém um caracter do arquivo.
+fputs()     Insere uma string no arquivo.
+fputc()     Insere um caracter no arquivo.
+fread()     Lê um bloco de dados do arquivo.
+fwrite()    Escreve um bloco de dados no arquivo.
+fseek()     Reposiciona o ponteiro.
+rewind()    Reposiciona o ponteiro para o início do arquivo.
+ftell()     Retorna a posição do ponteiro.
 ----------------------------------------------------------------------------------------------------
-r: Permissão de abertura somente para leitura. É necessário que o arquivo já esteja presente no disco.
-
-w: Permissão de abertura para escrita (gravação). Este código cria o arquivo caso ele não exista, e caso o mesmo exista ele recria o arquivo novamente fazendo com que o conteúdo seja perdido. Portanto devemos tomar muito cuidado ao usar esse tipo de abertura.
-
-a: Permissão para abrir um arquivo texto para escrita(gravação), permite acrescentar novos dados ao final do arquivo. Caso não exista, ele será criado.
+”r”  >      Abre o arquivo somente para leitura, a partir do início. O arquivo deve existir.
+”w”  >      Cria um arquivo vazio para escrita. Se já havia o arquivo, ele é perdido.
+”a”  >      Adiciona no final do arquivo. Se o arquivo não existir, a função o cria.
+”r+” >      Abre o arquivo para leitura e escrita, a partir do início. O arquivo deve existir.
+”w+” >      Cria um arquivo vazio para leitura e escrita. Se já havia o arquivo, ele é perdido.
+”a+” >      Abre para adição ou leitura no final do arquivo. Se o arquivo não existir, a função o cria.

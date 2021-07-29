@@ -49,7 +49,7 @@ void LeArquivo(int *vet){
     fclose(arquivo);
 }
 */
-
+/*
 void organizaArquivo(int *vet);
 void bubble_sort(int vetor[], int n);
 
@@ -103,4 +103,46 @@ void organizaArquivo(int *vet){
     fclose(ar1);
     
 }
+*/
 
+
+typedef struct
+{
+    char nome[20];
+    int idade;
+    double peso;
+
+}Registo_t;
+
+
+int main(){
+
+    FILE *arq1;
+    Registo_t Pessoas[5];
+
+
+    arq1 = fopen("frases.txt", "r");
+
+    for(int i=0; i < 5;i++){
+        //fscanf(arq1, "%s\n", Pessoas[i].nome);
+        fgets(Pessoas[i].nome, 100, arq1);
+        printf("\nNome do cara: %s\n", Pessoas[i].nome);
+
+        fscanf(arq1, "%i\n", Pessoas[i].idade);
+        printf("Idade do cara: %d\n", Pessoas[i].idade);
+
+        fscanf(arq1, "%lf\n", Pessoas[i].peso);
+        printf("Peso do cara: %d\n", Pessoas[i].peso);
+    }
+    puts("Lido com sucesso\n");
+
+    for(int i=0; i < 5;i++){
+        //printf("\nNome do cara: %s\n", Pessoas[i].nome);
+        //printf("Idade do cara: %d\n", Pessoas[i].idade);
+        //printf("Peso do cara: %d\n", Pessoas[i].peso);
+    }
+
+    fclose(arq1);
+
+    return 0;
+}
