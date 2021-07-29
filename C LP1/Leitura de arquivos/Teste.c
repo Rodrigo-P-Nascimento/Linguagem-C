@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
 int main(void){
@@ -106,9 +107,14 @@ void organizaArquivo(int *vet){
 */
 
 
+#define TAM 30
+
+void TiraN( char *linhaString ){
+    linhaString[strcspn ( linhaString, "\n" )] = '\0';
+}
 typedef struct
 {
-    char nome[20];
+    char nome[TAM];
     int idade;
     double peso;
 
@@ -119,30 +125,45 @@ int main(){
 
     FILE *arq1;
     Registo_t Pessoas[5];
+    char nomes[TAM];
+    int age;
+    double ppeso;
+
 
 
     arq1 = fopen("frases.txt", "r");
 
+    if(arq1 == NULL){
+        printf("Algo de errado aconteceu com o arquivo, sendo impossivel abri-lo\n");
+        return 0;
+    }
+
     for(int i=0; i < 5;i++){
         //fscanf(arq1, "%s\n", Pessoas[i].nome);
-        fgets(Pessoas[i].nome, 100, arq1);
-        printf("\nNome do cara: %s\n", Pessoas[i].nome);
+      
+        fgets(nomes, sizeof(nomes), arq1);
+        //printf("Nome do cara: %s\n", nomes);
+        TiraN(nomes);
+        strcpy(Pessoas[i].nome, nomes); 
 
-        fscanf(arq1, "%i\n", Pessoas[i].idade);
-        printf("Idade do cara: %d\n", Pessoas[i].idade);
+        fscanf(arq1, "%d", &age);
+        //printf("Idade do cara: %d\n", age);
+        Pessoas[i].idade = age;
 
-        fscanf(arq1, "%lf\n", Pessoas[i].peso);
-        printf("Peso do cara: %d\n", Pessoas[i].peso);
+        fscanf(arq1, "%lf", &ppeso);
+        //printf("Peso do cara: %lf\n", ppeso);
+        Pessoas[i].peso = ppeso;
     }
     puts("Lido com sucesso\n");
 
     for(int i=0; i < 5;i++){
-        //printf("\nNome do cara: %s\n", Pessoas[i].nome);
-        //printf("Idade do cara: %d\n", Pessoas[i].idade);
-        //printf("Peso do cara: %d\n", Pessoas[i].peso);
+        printf("Nome do cara: %s\n", Pessoas[i].nome);
+        printf("Idade do cara: %d\n", Pessoas[i].idade);
+        printf("Peso do cara: %.2lf\n\n", Pessoas[i].peso);
     }
 
-    fclose(arq1);
+    fclose(arq1);   
+    printf("Arquivo fechado com sucesso");
 
     return 0;
 }
