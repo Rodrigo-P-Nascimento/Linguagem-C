@@ -44,7 +44,7 @@ typedef struct {
     int andar;
     int numVagasGaragem;
     double area; //Quantos metros quadrados tem o apartamento
-    float valorDoCondominio;
+    double valorDoCondominio;
 }Apartamento;
 
 typedef struct{
@@ -86,6 +86,8 @@ void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Funçã
 void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que Remove um imóvel do sistema
 
 void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//função que idita um imóvel já cadastrado
+
+void SalvaArquivo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3);//Função que cria um arquivo do tipo .txt
 
 int main(void){
 
@@ -138,6 +140,9 @@ int main(void){
         case 10: 
             EditarImovel(CSImovies, ATImoveis, TRImoveis);
             break; 
+        case 11:
+            SalvaArquivo(CSImovies, ATImoveis, TRImoveis);
+            break;
         default:
             puts("VALOR INVÁLIDO!");
             break;
@@ -385,6 +390,7 @@ void MenuDeOpcoes(){
     puts("[8]\tBuscar por todos os imóveis para alugar.");
     puts("[9]\tPara remover um imóvel.");
     puts("[10]\tEditar um imóvel.");
+    puts("[11]\tSalvar a lista de imóveis em um arquivo.");
     puts("[-1]\t Para sair do programa.");
     puts("----------------------------------------\n");
     printf("Digite uma das opções: ");
@@ -1171,4 +1177,88 @@ void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     system("pause");
 }
 
+void SalvaArquivo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
+    
+    int i;
+
+    FILE *arquivo;
+
+    arquivo = fopen("Imovies_Lista.txt", "w"); //Criar um novo arquivo ou "atualiza" um arquivo
+
+    fprintf(arquivo,"%s\n%s\n","Lista de Imóveis", "--------------------------------------------------");
+    //Parte das casas
+    fprintf(arquivo, "%s\n", "CASAS DISPONÍVEIS");
+    
+    for(i=0;i < TAM_IMOVEIS;i++){
+        if(strcmp(imovel1[i].tituloAnuncio, "VAZIO") != 0){
+
+            fprintf(arquivo, "%s\n", " ");
+            fprintf(arquivo, "Casa[%d]: \n", i+1);
+        
+            fprintf(arquivo,"\t[>]Titúlo do anúncio: %s\n", imovel1[i].tituloAnuncio);
+            fprintf(arquivo,"\t[>]Disponibilidade: %s\n", imovel1[i].imovel.disponibilidade);
+            fprintf(arquivo,"\t[>]Rua: %s\n", imovel1[i].imovel.logradouro);
+            fprintf(arquivo,"\t[>]Bairro: %s\n", imovel1[i].imovel.bairro);
+            fprintf(arquivo,"\t[>]Cidade: %s\n", imovel1[i].imovel.cidade);
+            fprintf(arquivo,"\t[>]Número da Casa: %d\n",imovel1[i].imovel.numeroImovel);
+            fprintf(arquivo,"\t[>]CEP: %d\n", imovel1[i].imovel.cep);
+            fprintf(arquivo,"\t[>]Valor: R$%.2lf\n", imovel1[i].imovel.valor);
+
+            fprintf(arquivo,"\t[>]Área construída: %.2lf m2\n", imovel1[i].areaConstruida);
+            fprintf(arquivo,"\t[>]Área do terreno: %.2lf m2\n",imovel1[i].areaTerreno); 
+            fprintf(arquivo,"\t[>]Número de pavimentos: %d\n", imovel1[i].numPavimentos); 
+            fprintf(arquivo,"\t[>]Número de quartos: %d\n", imovel1[i].numQuartos);
+        }
+    }
+
+    fprintf(arquivo, "\n%s\n", "APARTAMENTOS DISPONÍVEIS");
+
+    for(i = 0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel2[i].tituloAnuncio, "VAZIO") != 0){
+            fprintf(arquivo, "%s\n", " ");
+            fprintf(arquivo, "Apartamento[%d]: \n", i+1);
+
+            fprintf(arquivo,"\t[>]Titúlo do anúncio: %s\n", imovel2[i].tituloAnuncio);
+            fprintf(arquivo,"\t[>]Disponibilidade: %s\n", imovel2[i].imovel.disponibilidade);
+            fprintf(arquivo,"\t[>]Posição em relação ao sol: %s\n", imovel2[i].posicao);
+            fprintf(arquivo,"\t[>]Rua: %s\n", imovel2[i].imovel.logradouro);
+            fprintf(arquivo,"\t[>]Bairro: %s\n", imovel2[i].imovel.bairro);
+            fprintf(arquivo,"\t[>]Cidade: %s\n", imovel2[i].imovel.cidade);
+            fprintf(arquivo,"\t[>]Número do Apartamento: %d\n",imovel2[i].imovel.numeroImovel);
+            fprintf(arquivo,"\t[>]CEP: %d\n", imovel2[i].imovel.cep);
+            fprintf(arquivo,"\t[>]Valor: R$%.2lf\n", imovel2[i].imovel.valor);
+
+            fprintf(arquivo,"\t[>]Andar: %d\n", imovel2[i].andar);
+            fprintf(arquivo,"\t[>]Área: %.2lfm2\n", imovel2[i].area);
+            fprintf(arquivo,"\t[>]Número de quartos: %d\n", imovel2[i].numQuartos);
+            fprintf(arquivo,"\t[>]Número de Vagas na garagem: %d\n", imovel2[i].numVagasGaragem);
+            fprintf(arquivo,"\t[>]Valor do condominio: R$%.2lf\n", imovel2[i].valorDoCondominio);
+        }
+    }
+
+    fprintf(arquivo, "\n%s\n", "TERRENOS DISPONÍVEIS");
+
+    for(i=0; i < TAM_IMOVEIS; i++){
+        if(strcmp(imovel3[i].tituloAnuncio, "VAZIO") != 0){
+            fprintf(arquivo, "%s\n", " ");
+            fprintf(arquivo, "Terreno[%d]: \n", i+1);
+        
+            fprintf(arquivo, "\t[>]Titúlo do anúncio: %s\n", imovel3[i].tituloAnuncio);
+            fprintf(arquivo, "\t[>]Disponibilidade: %s\n", imovel3[i].imovel.disponibilidade);
+            fprintf(arquivo, "\t[>]Rua: %s\n", imovel3[i].imovel.logradouro);
+            fprintf(arquivo, "\t[>]Bairro: %s\n", imovel3[i].imovel.bairro);
+            fprintf(arquivo, "\t[>]Cidade: %s\n", imovel3[i].imovel.cidade);
+            fprintf(arquivo, "\t[>]Número da Casa: %d\n",imovel3[i].imovel.numeroImovel);
+            fprintf(arquivo, "\t[>]CEP: %d\n", imovel3[i].imovel.cep);
+            fprintf(arquivo, "\t[>]Valor: R$%.2lf\n", imovel3[i].imovel.valor);
+            fprintf(arquivo, "\t[>]Área do terreno: %.2lf m2\n", imovel3[i].area);
+        }
+    }
+
+    fclose(arquivo);//Fechando o arquivo
+    puts("Arquivo criado com sucesso!");
+    system("pause");
+
+    
+}
 //FIM

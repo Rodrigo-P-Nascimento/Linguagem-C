@@ -1,0 +1,62 @@
+Lista de Imóveis
+--------------------------------------------------
+CASAS DISPONÍVEIS
+ 
+Casa[1]: 
+	[>]Titúlo do anúncio: Casa na praia
+	[>]Disponibilidade: ALUGUEL
+	[>]Rua: Rua Capitao da Guarda
+	[>]Bairro: Mangabeira
+	[>]Cidade: Joao Pessoa
+	[>]Número da Casa: 3456
+	[>]CEP: 56720000
+	[>]Valor: R$1000.00
+	[>]Área construída: 58.00 m2
+	[>]Área do terreno: 100.00 m2
+	[>]Número de pavimentos: 1
+	[>]Número de quartos: 4
+ 
+Casa[3]: 
+	[>]Titúlo do anúncio: Casa no Campo
+	[>]Disponibilidade: VENDA
+	[>]Rua: Sitio do Prazeses
+	[>]Bairro: Zona Rural
+	[>]Cidade: Sao Vicente
+	[>]Número da Casa: 45
+	[>]CEP: 678900
+	[>]Valor: R$100000.00
+	[>]Área construída: 250.00 m2
+	[>]Área do terreno: 200.00 m2
+	[>]Número de pavimentos: 2
+	[>]Número de quartos: 8
+
+APARTAMENTOS DISPONÍVEIS
+ 
+Apartamento[1]: 
+	[>]Titúlo do anúncio: Apartamento em Boa Vaigem
+	[>]Disponibilidade: ALUGUEL
+	[>]Posição em relação ao sol: Nascente Sul
+	[>]Rua: Rua das Biatas
+	[>]Bairro: Sao Jorge
+	[>]Cidade: Recife
+	[>]Número do Apartamento: 112
+	[>]CEP: 456777
+	[>]Valor: R$1000.00
+	[>]Andar: 5
+	[>]Área: 50.00m2
+	[>]Número de quartos: 4
+	[>]Número de Vagas na garagem: 3
+	[>]Valor do condominio: R$0.00
+
+TERRENOS DISPONÍVEIS
+ 
+Terreno[1]: 
+	[>]Titúlo do anúncio: Terreno bom e barato
+	[>]Disponibilidade: VENDA
+	[>]Rua: Rau das gracas
+	[>]Bairro: Logoinha
+	[>]Cidade: Ferreira
+	[>]Número da Casa: 5
+	[>]CEP: 4444555
+	[>]Valor: R$56000.00
+	[>]Área do terreno: 1000.00 m2

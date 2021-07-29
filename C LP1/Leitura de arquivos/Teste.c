@@ -98,7 +98,7 @@ void organizaArquivo(int *vet){
     puts("");
     for(i=0; i < 10; i++){              //Vamos copiar os valores do arquivo para o array
         printf("NOVO VALOR[%d]: %d\n",i , vet[i]);
-        fprintf(ar1, "%d\n", vet[i]);
+        fprintf(ar1, "Novo valor Mâção: %d\n", vet[i]);
     }
     fclose(ar1);
     
