@@ -1,7 +1,8 @@
-> Implemtar um botão de voltar tudo ao começo.
-> Cara tem um bug que quando não coloco nada nos arrays e mando apartar enter, aparece rapidamente "VALOR INVALIDO" oriundo do default do switch, acho que seria melhor tirar o falso system pause de lá. Por enquanto ta com o system(pause) lá.
+>Ta quase finalizado o projeto mas precisa Implemtar a função de leitura de dados via um arquivo txt, porem eu não sei como é para ser feito essa leitura, então vou esperar o professor dizer algo.
 
 >"Função que retorna todos os imóveis...." como assim RETORNA? Será que ele quer somente para mostrar ou quer um array mesmo....
     Vou fazer uma função que mostra os bagulho
 
 >Fazer todas as verificações de dados caso o professor peça....
+
+>otimizar o código ao final de tudo.
