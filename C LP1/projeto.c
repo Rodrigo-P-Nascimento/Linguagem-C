@@ -10,7 +10,7 @@
     #include <unistd.h>
     #define LIMPAR "clear"
 // Dá mensagem de erro informando que o sistema não é suportado.
-#error "Sistema nao suportado."
+//#error "Sistema nao suportado."
 #endif
 
 #define TAM_NOME 101
