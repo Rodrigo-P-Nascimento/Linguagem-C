@@ -150,16 +150,10 @@ int main(void){
 
     }while(opcao != -1);
 
-    limparBuffer();
     puts("\nOBRIGADO POR USAR O NOSSO PROGRAMA!");
-    printf("\nPressione ENTER para finalizar o programa.");
-    getchar();
-	return 0;
-}
+    myPause();
 
-void myPause(void){
-    puts("Precione qualquer tecla para continuar...");
-    getchar();
+	return 0;
 }
 
 void mysleep(int tempoMS){
@@ -180,6 +174,12 @@ void limparBuffer(void){
     char c;
 
     while((c = getchar()) != '\n' && c != EOF);
+}
+
+void myPause(void){
+    limparBuffer();
+    puts("Precione qualquer tecla para continuar...");
+    getchar();
 }
 
 int VerificaCAT(){
