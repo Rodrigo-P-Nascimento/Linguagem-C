@@ -151,7 +151,10 @@ int main(void){
     }while(opcao != -1);
 
     puts("\nOBRIGADO POR USAR O NOSSO PROGRAMA!");
-    myPause();
+
+    limparBuffer();
+    puts("Precione ENTER para finalizar o programa...");
+    getchar();
 
 	return 0;
 }
@@ -178,7 +181,7 @@ void limparBuffer(void){
 
 void myPause(void){
     limparBuffer();
-    puts("Precione qualquer tecla para continuar...");
+    puts("Precione ENTER para continuar...");
     getchar();
 }
 
