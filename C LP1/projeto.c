@@ -9,8 +9,6 @@
 #elif __linux__
     #include <unistd.h>
     #define LIMPAR "clear"
-// Dá mensagem de erro informando que o sistema não é suportado.
-//#error "Sistema nao suportado."
 #endif
 
 #define TAM_NOME 101
@@ -52,6 +50,8 @@ typedef struct{
     char tituloAnuncio[TAM_NOME];//Nome do anúncio do apartamento
     double area; //Quantos metros quadrados tem o apartamento
 }Terreno;
+
+void myPause(void);//É uma função generica analoga ao |system("pause")|
 
 void mysleep(int tempoMS);//função que é analoga ao Sleep() e unsleep()
 
@@ -157,6 +157,11 @@ int main(void){
 	return 0;
 }
 
+void myPause(void){
+    puts("Precione qualquer tecla para continuar...");
+    getchar();
+}
+
 void mysleep(int tempoMS){
 #ifdef __linux__
     usleep(tempoMS * 1000);
@@ -256,7 +261,7 @@ void ImprimeDados(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
         printf("Valor: R$%.2lf\n", imovel3[imo].imovel.valor);
         printf("Área do terreno: %.2lf m2\n", imovel3[imo].area);
     }
-    system("pause");
+    myPause();
 }
 
 void PreencheImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -345,7 +350,7 @@ void ConsultaImoveis(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
     //printf("\nPressione ENTER para voltar ao menu.");
     //getchar();
 
-    system("pause");
+    myPause();
 }
 
 void ExibeImoviesDisp(int tipo, Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -731,7 +736,7 @@ void BuscaTitulo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
         }
     }
     puts("");
-    system("pause");
+    myPause();
 }
 
 void BuscaBairro(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -792,7 +797,7 @@ void BuscaBairro(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
         }
     }
     puts("");
-    system("pause");
+    myPause();
 }
 
 void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -849,7 +854,7 @@ void BuscaValor(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
         }
     }
     puts("");
-    system("pause");
+    myPause();
 
 }
 
@@ -883,7 +888,7 @@ void DispoVenda(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             }
         }
     }
-    system("pause");
+    myPause();
 }
 
 void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -916,7 +921,7 @@ void DispoAluga(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             }
         }
     }
-    system("pause");
+    myPause();
 }
 
 void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -1063,7 +1068,7 @@ void RemoveImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             break;
     
     }
-    system("pause");
+    myPause();
 }
 
 void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -1174,7 +1179,7 @@ void EditarImovel(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
             printf("OPÇÃO INVÁLIDA!\n");
             break;
     }
-    system("pause");
+    myPause();
 }
 
 void SalvaArquivo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
@@ -1257,8 +1262,6 @@ void SalvaArquivo(Casa *imovel1, Apartamento *imovel2, Terreno *imovel3){
 
     fclose(arquivo);//Fechando o arquivo
     puts("Arquivo criado com sucesso!");
-    system("pause");
-
-    
+    myPause();
 }
 //FIM
