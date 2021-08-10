@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
-
+/*
+so testanto o bagulho aqui meu kkkk
+*/
 #ifdef _WIN32
     #include <Windows.h>
     #define LIMPAR "cls"
